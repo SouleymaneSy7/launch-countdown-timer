@@ -1,0 +1,269 @@
+@use "./reset";
+
+//=================================
+//      CSS Customs Variables
+//=================================
+
+:root {
+  // Colors
+  --primary-clr: hsl(345, 95%, 68%);
+  --secondary-clr: hsl(237, 18%, 59%);
+
+  --white-clr: hsl(0, 0%, 100%);
+  --timer-clr: hsl(236, 21%, 26%);
+  --very-dark-blue: hsl(235, 16%, 14%);
+  --very-dark: hsl(234, 17%, 12%);
+
+  // Font Family
+  --font-family: "Red Hat Text", sans-serif;
+
+  // Font-Weight
+  --fw-normal: 400;
+  --fw-bold: 700;
+
+  // Font-size
+
+  /* @link https://utopia.fyi/type/calculator?c=320,16,1.2,1440,18,1.25,10,10,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */
+
+  /* Step -1: 13.33px → 14.40px */
+  --fs-small: clamp(0.83rem, calc(0.81rem + 0.1vw), 0.9rem);
+
+  /* Step 2: 23.04px → 28.13px */
+  --fs-2: clamp(1.44rem, calc(1.35rem + 0.45vw), 1.76rem);
+
+  /* Step 3: 57.33px → 85.83px */
+  --fs-3: clamp(3rem, calc(3rem + 2vw), 5.36rem);
+
+  // Shadow
+  --timer-number-shadow: 0 0.625rem 0 0 var(--very-dark);
+}
+
+//============================
+//      Utility Classes
+//============================
+
+.primary-title {
+  font-size: var(--fs-2);
+  font-weight: var(--fw-bold);
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 0.5rem;
+  color: var(--white-clr);
+}
+
+.timer__title {
+  font-size: var(--fs-small);
+  font-weight: var(--fw-bold);
+  color: var(--secondary-clr);
+  letter-spacing: 0.25rem;
+  text-transform: uppercase;
+}
+
+.timer--counter {
+  font-size: var(--fs-3);
+  font-weight: var(--fw-bold);
+  color: var(--primary-clr);
+  text-align: center;
+}
+
+//===========================
+//      General Styling
+//===========================
+
+body {
+  --block-padding: min(10rem, 20vh);
+
+  font-family: var(--font-family);
+
+  min-height: 100vh;
+
+  background-image: url(../assets/bg-stars.svg),
+    linear-gradient(to bottom, var(--very-dark-blue), var(--timer-clr));
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center center;
+
+  padding: var(--block-padding) 1.25rem 0;
+  overflow: hidden;
+}
+
+body::before {
+  content: "";
+
+  display: block;
+
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform: translate(0%, 30%);
+
+  width: 100%;
+  height: 18.75rem;
+
+  background-image: url(../assets/pattern-hills.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+//===========================
+//      Timer Container
+//===========================
+
+.timer-container {
+  --top-margin: min(6rem, 12vh);
+  --gap: 1rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--gap);
+
+  margin-block-start: var(--top-margin);
+  margin-inline: auto;
+}
+
+.timer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.timer__number {
+  --timer-width: 6.25rem;
+
+  position: relative;
+
+  width: var(--timer-width);
+
+  background-color: var(--timer-clr);
+  box-shadow: var(--timer-number-shadow);
+  border-radius: 0.5rem;
+
+  padding: 1rem 0;
+
+  -webkit-user-select: none;
+  user-select: none;
+
+  &::before {
+    content: "";
+
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+
+    width: 100%;
+    height: 0.0625rem;
+
+    background-color: rgba(0, 0, 0, 20%);
+    box-shadow: 0 0.3125rem 1.125rem 0 rgb(0, 0, 0, 10%),
+      0 -0.3125rem 0.9375rem 0 rgb(0, 0, 0, 30%);
+  }
+}
+
+:is(.dot-1, .dot-2) {
+  --full-radius: 100vmax;
+  position: absolute;
+
+  width: 0.4375rem;
+  height: 0.75rem;
+
+  background-color: var(--very-dark);
+}
+
+.dot-1 {
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+
+  border-top-right-radius: var(--full-radius);
+  border-bottom-right-radius: var(--full-radius);
+}
+
+.dot-2 {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+
+  border-top-left-radius: var(--full-radius);
+  border-bottom-left-radius: var(--full-radius);
+}
+
+.sci ul {
+  position: absolute;
+  bottom: 6.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+
+  & .social-icons svg path {
+    fill: var(--secondary-clr);
+    transition: fill 150ms ease-in-out;
+  }
+
+  & .social-icons:hover svg path {
+    fill: var(--primary-clr);
+  }
+}
+
+.attribution {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+
+  text-align: center;
+
+  & p {
+    font-size: 1rem;
+    line-height: 1;
+    color: var(--secondary-clr);
+
+    & span {
+      font-size: 1.75rem;
+      font-weight: var(--fw-bold);
+      color: var(--primary-clr);
+    }
+  }
+
+  & a {
+    font-size: 1.25rem;
+    font-weight: var(--fw-bold);
+    color: var(--primary-clr);
+
+    &:is(:hover, :focus) {
+      text-decoration: underline;
+    }
+  }
+}
+
+//============================
+//      Responsive 920px
+//============================
+
+@media only screen and (min-width: 57.5em) {
+  body {
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .timer-container {
+    --container-width: 31.25rem;
+
+    width: min(100%, var(--container-width));
+
+    flex-wrap: nowrap;
+    gap: calc(var(--gap) * 2);
+  }
+
+  .timer__number {
+    --timer-width: 9.6875rem;
+  }
+}
